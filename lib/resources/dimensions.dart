@@ -10,14 +10,13 @@ class AppDimensions {
   static const spaceXXLarge = 32.0;
   static const spaceXXXLarge = 64.0;
 
-
   static const fontSizeButton = 16.0;
-  static const textSizeSmall = 12.0;
   static const buttonWidth = 200.0;
   static const buttonHeight = 50.0;
 
-
-
   // Declare app or screen specific dimensions
   static const inputFieldBorderRadius = 30.0;
+
+  static const textSizeSmall = 12.0;
+  static const textSizeXXXLarge = 54.0;
 }

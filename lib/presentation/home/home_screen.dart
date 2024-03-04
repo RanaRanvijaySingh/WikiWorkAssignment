@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:wiki_work_assignment/common/shared_preference_helper.dart';
 import 'package:wiki_work_assignment/data/models/ui_models/album_ui_model.dart';
 import 'package:wiki_work_assignment/main.dart';
 import 'package:wiki_work_assignment/presentation/home/home_bloc.dart';
@@ -110,7 +111,7 @@ class _HomeState extends State<HomeScreen> {
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.logout),
-          onPressed: () => _logout,
+          onPressed: _logout,
         )
       ],
     );
@@ -132,7 +133,13 @@ class _HomeState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _logout() {}
+  void _logout() {
+    SharedPrefHelper().logout();
+    context.router.pushAndPopUntil(LoginRoute(),
+        predicate: (Route<dynamic> route) {
+      return false;
+    });
+  }
 
   void showMessage(String message) => ScaffoldMessenger.of(context)
       .showSnackBar(SnackBar(content: Text(message)));

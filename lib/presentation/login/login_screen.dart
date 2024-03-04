@@ -1,13 +1,14 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:wiki_work_assignment/common/authenticator.dart';
+import 'package:wiki_work_assignment/common/shared_preference_helper.dart';
 import 'package:wiki_work_assignment/resources/colors.dart';
 import 'package:wiki_work_assignment/resources/dimensions.dart';
 import 'package:wiki_work_assignment/utils/validation_utils.dart';
 
-import '../../routing/app_routes.gr.dart';
 import '../../resources/app_strings.dart';
+import '../../routing/app_routes.gr.dart';
+import '../custom_view/background.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -30,19 +31,25 @@ class _LoginState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: key,
-      body: Padding(
-        padding: const EdgeInsets.all(AppDimensions.spaceMedium),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _usernameInputView(),
-            const SizedBox(height: AppDimensions.spaceSmall),
-            _passwordInputView(),
-            const SizedBox(height: AppDimensions.spaceMedium),
-            _loginButtonView(AppStrings.login),
-          ],
+      body: Stack(children: [
+        CustomPaint(
+          size: Size(720, (720 * 1.6666666666666667).toDouble()),
+          painter: RPSCustomPainter(),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(AppDimensions.spaceMedium),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _usernameInputView(),
+              const SizedBox(height: AppDimensions.spaceSmall),
+              _passwordInputView(),
+              const SizedBox(height: AppDimensions.spaceMedium),
+              _loginButtonView(AppStrings.login),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 
@@ -134,7 +141,11 @@ class _LoginState extends State<LoginScreen> {
       } else {
         Authenticator().login(_username, _password).then((value) {
           if (value) {
-            context.router.push(const HomeRoute());
+            SharedPrefHelper().login();
+            context.router.pushAndPopUntil(const HomeRoute(),
+                predicate: (Route<dynamic> route) {
+              return false;
+            });
           } else {
             showMessage("Login failure");
           }

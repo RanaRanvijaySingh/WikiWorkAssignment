@@ -31,6 +31,11 @@ final class SharedPrefHelper {
     return pref.getBool(SharedPrefKeys.isOnBoarded) ?? false;
   }
 
+  Future<bool> isLoggedIn() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getBool(SharedPrefKeys.isLoggedIn) ?? false;
+  }
+
   Future<String?> getPassword() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.getString(SharedPrefKeys.password);
@@ -39,6 +44,16 @@ final class SharedPrefHelper {
       return _security.decrypt(encryptedPassword);
     }
     return null;*/
+  }
+
+  void login() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setBool(SharedPrefKeys.isLoggedIn, true);
+  }
+
+  void logout() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setBool(SharedPrefKeys.isLoggedIn, false);
   }
 }
 

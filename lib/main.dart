@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wiki_work_assignment/common/security.dart';
-import 'package:wiki_work_assignment/di.dart';
+import 'package:wiki_work_assignment/di/di.dart';
 import 'package:wiki_work_assignment/resources/app_strings.dart';
 import 'package:wiki_work_assignment/routing/app_routes.dart';
 

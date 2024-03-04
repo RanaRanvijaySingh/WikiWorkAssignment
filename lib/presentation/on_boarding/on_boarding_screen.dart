@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:wiki_work_assignment/routing/app_routes.gr.dart';
+import 'package:wiki_work_assignment/common/shared_preference_helper.dart';
 import 'package:wiki_work_assignment/resources/colors.dart';
 import 'package:wiki_work_assignment/resources/dimensions.dart';
-import 'package:wiki_work_assignment/common/shared_preference_helper.dart';
+import 'package:wiki_work_assignment/routing/app_routes.gr.dart';
 import 'package:wiki_work_assignment/utils/Constants.dart';
 import 'package:wiki_work_assignment/utils/validation_utils.dart';
 
 import '../../resources/app_strings.dart';
+import '../custom_view/background.dart';
 
 @RoutePage()
 class OnBoardingScreen extends StatefulWidget {
@@ -27,14 +28,20 @@ class _OnBoardingState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _usernameView(),
-          _passwordView(),
-          _saveButtonView(AppStrings.save),
-        ],
-      ),
+      body: Stack(children: [
+        CustomPaint(
+          size: Size(720, (720 * 1.6666666666666667).toDouble()),
+          painter: RPSCustomPainter(),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _usernameView(),
+            _passwordView(),
+            _saveButtonView(AppStrings.save),
+          ],
+        ),
+      ]),
     );
   }
 
@@ -178,6 +185,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
       if (_isValidUsername && _isValidPassword) {
         // Save the username in shared preference.
         SharedPrefHelper().saveOnBoardingDetail(_username, _password);
+        context.router.pop();
         context.router.push(LoginRoute());
       }
     });
